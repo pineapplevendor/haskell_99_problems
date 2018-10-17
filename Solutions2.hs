@@ -70,3 +70,13 @@ dropEveryHelper (x:xs) n m
     | n == 1 = (dropEveryHelper xs m m)
     | otherwise = x:(dropEveryHelper xs (n-1) m)
 
+--problem 17
+split :: [a] -> Int -> [[a]]
+split xs n = [getFirstN xs n, reverse $ getFirstN (reverse xs) m]
+    where m = countElements xs - n
+
+getFirstN :: [a] -> Int -> [a]
+getFirstN (x:xs) n
+    | n == 0 = []
+    | otherwise = x:(getFirstN xs (n-1))
+
