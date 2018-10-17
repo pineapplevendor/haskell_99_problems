@@ -3,7 +3,8 @@ module Solutions2
  decodeModified,
  encodeDirect,
  dupli,
- repli
+ repli,
+ dropEvery
 ) where
 
 import Solutions1
@@ -59,5 +60,13 @@ repli :: [a] -> Int -> [a]
 repli [] y = []
 repli (x:xs) y = (replicate y x) ++ (repli xs y)
 
+--problem 16
+dropEvery :: [a] -> Int -> [a]
+dropEvery xs n = dropEveryHelper xs n n 
 
+dropEveryHelper :: [a] -> Int -> Int -> [a]
+dropEveryHelper [] n m  = []
+dropEveryHelper (x:xs) n m 
+    | n == 1 = (dropEveryHelper xs m m)
+    | otherwise = x:(dropEveryHelper xs (n-1) m)
 
