@@ -4,7 +4,8 @@ module Solutions2
  encodeDirect,
  dupli,
  repli,
- dropEvery
+ dropEvery,
+ split
 ) where
 
 import Solutions1
@@ -76,7 +77,8 @@ split xs n = [getFirstN xs n, reverse $ getFirstN (reverse xs) m]
     where m = countElements xs - n
 
 getFirstN :: [a] -> Int -> [a]
+getFirstN [] _ = []
 getFirstN (x:xs) n
-    | n == 0 = []
+    | n <= 0 = []
     | otherwise = x:(getFirstN xs (n-1))
 
