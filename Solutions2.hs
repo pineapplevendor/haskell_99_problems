@@ -5,7 +5,10 @@ module Solutions2
  dupli,
  repli,
  dropEvery,
- split
+ split,
+ slice,
+ rotate,
+ removeAt
 ) where
 
 import Solutions1
@@ -81,4 +84,18 @@ getFirstN [] _ = []
 getFirstN (x:xs) n
     | n <= 0 = []
     | otherwise = x:(getFirstN xs (n-1))
+
+slice :: [a] -> Int -> Int -> [a]
+slice [] _ _ = []
+slice (x:xs) 0 0 = []
+slice (x:xs) 0 m
+    | m < 0 = error "Second number must be greater than first"
+    | otherwise = x:(slice xs 0 (m-1))
+slice (x:xs) n m = slice xs (n-1) (m-1) 
+
+rotate :: [a] -> Int -> [a]
+rotate xs n = (slice xs n (countElements xs)) ++ (slice xs 0 n)
+
+removeAt :: [a] -> Int -> [a]
+removeAt xs n = (slice xs 0 (n-1)) ++ (slice xs n (countElements xs))
 
