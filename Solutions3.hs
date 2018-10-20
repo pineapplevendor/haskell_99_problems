@@ -1,7 +1,9 @@
 module Solutions3
 (insertAt,
  range,
-
+ rndSelect,
+ diffSelect,
+ rndPermu,
 ) where
 
 import System.Random
@@ -17,7 +19,6 @@ insertAt x ys n = (slice ys 0 (n-1)) ++ [x] ++ (slice ys (n-1) len)
 range :: Int -> Int -> [Int]
 range x y = [x..y]
 
-
 --problem 23
 rndSelect :: [a] -> Int -> [a]
 rndSelect xs n = rndSelectHelper xs rndIdxs
@@ -30,18 +31,23 @@ rndSelectHelper xs (y:ys) = (getKth xs y):(rndSelectHelper xs ys)
 getRndIdxs :: Int -> [Int]
 getRndIdxs n = randomRs (1,n) (mkStdGen 94) :: [Int]
 
-
 --problem 24
 diffSelect :: Int -> Int -> [Int]
 diffSelect n m = diffSelectHelper [1..m] n (mkStdGen 94)
 
-diffSelectHelper :: [Int] -> Int -> StdGen -> [Int]
+diffSelectHelper :: [a] -> Int -> StdGen -> [a]
 diffSelectHelper [] _ _ = []
 diffSelectHelper _ 0 _ = []
-diffSelectHelper xs n gen = (getKth xs (fst rndIdx)):(diffSelectHelper (removeAt xs (fst rndIdx)) (n-1) (snd rndIdx))
-    where rndIdx = getRndIdx (countElements xs) gen
+diffSelectHelper xs n gen = 
+    let rndIdx = getRndIdx (countElements xs) gen
+        selected = getKth xs (fst rndIdx)
+        remaining = removeAt xs (fst rndIdx)
+    in selected:diffSelectHelper remaining (n-1) (snd rndIdx)
 
 getRndIdx :: Int -> StdGen -> (Int, StdGen)
 getRndIdx n gen = randomR (1, n) gen
 
+--problem 25
+rndPermu :: [a] -> [a]
+rndPermu xs = diffSelectHelper xs (countElements xs) (mkStdGen 94)
 
