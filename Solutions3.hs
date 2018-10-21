@@ -4,6 +4,9 @@ module Solutions3
  rndSelect,
  diffSelect,
  rndPermu,
+ combinations,
+ lsort,
+ lfsort,
 ) where
 
 import System.Random
@@ -50,4 +53,51 @@ getRndIdx n gen = randomR (1, n) gen
 --problem 25
 rndPermu :: [a] -> [a]
 rndPermu xs = diffSelectHelper xs (countElements xs) (mkStdGen 94)
+
+--problem 26
+combinations :: Int -> [a] -> [[a]]
+combinations 0 _ = [[]]
+combinations _ [] = []
+combinations n (x:xs) = 
+    let startingWithCurrent = prependEltToLists x (combinations (n-1) xs)
+        skippingCurrent = combinations n xs
+    in startingWithCurrent ++ skippingCurrent
+
+prependEltToLists :: a -> [[a]] -> [[a]]
+prependEltToLists x [] = []
+prependEltToLists x (y:ys) = (x:y) : (prependEltToLists x ys)
+
+--problem 27
+--skipping because I'm trying to learn a language, not mathematics
+
+--problem 28
+--problem 28 a
+lsort :: [[a]] -> [[a]]
+lsort xs = qsort compareListLen xs
+
+compareListLen :: [a] -> [a] -> Bool
+compareListLen xs ys = countElements xs < countElements ys
+
+qsort :: (a -> a -> Bool) -> [a] -> [a]
+qsort _ [] = []
+qsort f (x:xs) = qsort f (filter lT xs) ++ [x] ++ qsort f (filter (not . lT) xs)
+    where lT y = f y x
+
+--problem 28 b
+lfsort :: (Eq a, Ord a) => [[a]] -> [[a]]
+lfsort xs = 
+    let freqTuples = encode $ qsort (<) xs
+        sortedFreqTuples = qsort compareFreqTuples freqTuples
+    in unpackFreqTuples sortedFreqTuples
+
+compareFreqTuples :: (Int, a) -> (Int, a) -> Bool
+compareFreqTuples x y = fst x < fst y
+
+unpackFreqTuples :: [(Int, a)] -> [a]
+unpackFreqTuples [] = []
+unpackFreqTuples (x:xs) = replicate (fst x) (snd x) ++ (unpackFreqTuples xs)
+
+
+
+
 
