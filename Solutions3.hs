@@ -12,8 +12,8 @@ import Solutions2
 
 --problem 21
 insertAt :: a -> [a] -> Int -> [a]
-insertAt x ys n = (slice ys 0 (n-1)) ++ [x] ++ (slice ys (n-1) len)
-    where len = (countElements ys)
+insertAt x ys n = slice ys 0 (n-1) ++ [x] ++ slice ys (n-1) len
+    where len = countElements ys
 
 --problem 22
 range :: Int -> Int -> [Int]
@@ -26,7 +26,7 @@ rndSelect xs n = rndSelectHelper xs rndIdxs
 
 rndSelectHelper :: [a] -> [Int] -> [a]
 rndSelectHelper _ [] = []
-rndSelectHelper xs (y:ys) = (getKth xs y):(rndSelectHelper xs ys)
+rndSelectHelper xs (y:ys) = getKth xs y:rndSelectHelper xs ys
 
 getRndIdxs :: Int -> [Int]
 getRndIdxs n = randomRs (1,n) (mkStdGen 94) :: [Int]
