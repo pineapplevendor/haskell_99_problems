@@ -5,6 +5,11 @@ module Solutions4
  totientPhi,
  isPrimeFactor,
  primeFactorsMult,
+ phi,
+ primesR,
+ goldbach,
+ goldbachList,
+ goldbachListFilter,
 ) where
 
 import Solutions1
@@ -42,7 +47,7 @@ isPrimeFactor x y = isFactor x y && isPrime x
 primeFactors :: Int -> [Int]
 primeFactors x = filter (flip isPrimeFactor x) [1..x-1]
 
---prime 36
+--problem 36
 primeFactorsMult :: Int -> [(Int, Int)]
 primeFactorsMult x = map flipTuple (encode $ getCompleteFactorization x)
 
@@ -54,4 +59,40 @@ getCompleteFactorization x
 
 flipTuple :: (a,b) -> (b,a)
 flipTuple (x,y) = (y,x)
+
+--problem 37
+phi :: [(Int, Int)] -> Int
+phi [] = 1::Int
+phi (x:xs) =
+    let p = fst x
+        m = snd x
+        base = (p-1)*p
+        exponent = m-1
+        current = round $ (fromIntegral base) ** (fromIntegral exponent)
+    in current * phi xs
+
+--problem 38 (not required)
+
+--problem 39
+primesR :: Int -> Int -> [Int]
+primesR x y = filter isPrime [x..y]
+
+--problem 40
+goldbach :: Int -> (Int,Int)
+goldbach n  = head [(x,y) | x <- primesInRange, y <- primesInRange, x + y == n]
+    where primesInRange = primesR 2 (n-1)
+
+--problem 41
+--problem 41 a
+goldbachList :: Int -> Int -> [(Int, Int)]
+goldbachList n m = map goldbach $ filter even [max 4 n..m]
+
+--problem 41 b
+
+goldbachListFilter :: Int -> Int -> Int -> [(Int,Int)]
+goldbachListFilter x y z = filter ((>z).min') (goldbachList x y)
+
+min' :: (Int,Int) -> Int
+min' (x,y) = min x y
+
 
