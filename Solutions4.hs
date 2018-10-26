@@ -63,7 +63,7 @@ flipTuple (x,y) = (y,x)
 --problem 37
 phi :: [(Int, Int)] -> Int
 phi [] = 1::Int
-phi ((p,m):xs) = ((p-1)*p) ^ (m-1)
+phi ((p,m):xs) = (p-1) * p ^ (m-1) * phi xs
 
 --problem 38 (not required)
 

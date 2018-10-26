@@ -11,7 +11,8 @@ import Solutions4
 
 --problem 49
 grayCode :: Int -> [[Char]]
-grayCode 2 = ["00","01","11","10"]
+grayCode 0 = [[],[]]
+grayCode 1 = ["0","1"]
 grayCode n = 
     let prev = grayCode (n-1)
         reflected = reverse prev
