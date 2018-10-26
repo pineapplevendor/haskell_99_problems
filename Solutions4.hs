@@ -63,13 +63,7 @@ flipTuple (x,y) = (y,x)
 --problem 37
 phi :: [(Int, Int)] -> Int
 phi [] = 1::Int
-phi (x:xs) =
-    let p = fst x
-        m = snd x
-        base = (p-1)*p
-        exponent = m-1
-        current = round $ (fromIntegral base) ** (fromIntegral exponent)
-    in current * phi xs
+phi ((p,m):xs) = ((p-1)*p) ^ (m-1)
 
 --problem 38 (not required)
 
