@@ -11,7 +11,7 @@ import Solutions4
 
 --problem 49
 grayCode :: Int -> [[Char]]
-grayCode 0 = [[],[]]
+grayCode 0 = [""]
 grayCode 1 = ["0","1"]
 grayCode n = 
     let prev = grayCode (n-1)
