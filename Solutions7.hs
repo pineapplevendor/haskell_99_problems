@@ -3,7 +3,8 @@ module Solutions7
  leaves,
  internals,
  atLevel,
- completeBinaryTree
+ completeBinaryTree,
+ layout
 ) where
 
 import Solutions1
@@ -55,6 +56,22 @@ addComplete x (Branch root l r)
 getMinDepth :: Tree a -> Int
 getMinDepth Empty = 0
 getMinDepth (Branch _ l r) = 1 + min (getMinDepth l) (getMinDepth r)
+
+--problem 64
+layout :: Tree a -> Tree (a,(Int,Int))
+layout Empty = Empty
+layout tree = layoutHelper tree 1
+
+layoutHelper :: Tree a -> Int -> Tree (a,(Int,Int))
+layoutHelper Empty _ = Empty
+layoutHelper (Branch x l r) h =
+    let layoutLeft = layoutHelper l (h+1)
+        layoutRight = layoutHelper r (h+1)
+    in  Branch (x,((getTreeSize l),h)) layoutLeft layoutRight
+
+getTreeSize :: Tree a -> Int
+getTreeSize Empty = 0
+getTreeSize (Branch _ l r) = 1 + (getTreeSize l) + (getTreeSize r)
 
 
 
